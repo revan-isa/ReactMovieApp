@@ -1,34 +1,35 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-class SearchBar extends React.Component {
-  handleFormSubmit = (e) => {
+const SearchBar = (props) => {
+  const navigate = useNavigate();
+  const handleFormSubmit = (e) => {
     e.preventDefault();
   };
-  render() {
-    return (
-      <form onSubmit={this.handleFormSubmit}>
-        <div className="form-row mb-5">
-          <div className="col-12">
-            <input
-              onChange={this.props.searchMovieProp}
-              type="text"
-              className="form-control"
-              placeholder="Search a movie"
-            />
-          </div>
-          <div className="col-2">
-            <button
-              type="button"
-              className="btn btn-md btn-danger"
-              style={{ float: "right" }}
-            >
-              Add Movie
-            </button>
-          </div>
+
+  return (
+    <form onSubmit={handleFormSubmit}>
+      <div className="row mb-5">
+        <div className="col-6">
+          <input
+            onChange={props.searchMovieProp}
+            type="text"
+            className="form-control rounded-0 shadow-sm "
+            placeholder="Find your movie"
+          />
         </div>
-      </form>
-    );
-  }
-}
+        <div className="col-2">
+          <button
+            type="button"
+            className="btn btn-outline-dark rounded-0"
+            onClick={() => navigate("/add")}
+          >
+            Add a Movie
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
 
 export default SearchBar;
