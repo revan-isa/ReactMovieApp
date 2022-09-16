@@ -16,6 +16,15 @@ class SearchBar extends React.Component {
               placeholder="Search a movie"
             />
           </div>
+          <div className="col-2">
+            <button
+              type="button"
+              className="btn btn-md btn-danger"
+              style={{ float: "right" }}
+            >
+              Add Movie
+            </button>
+          </div>
         </div>
       </form>
     );
