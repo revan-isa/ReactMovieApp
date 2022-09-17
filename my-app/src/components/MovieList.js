@@ -1,9 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const MovieList = (props) => {
-  //   function handleClick( ) {
-  //     console.log();
-  //   }
+  const navigate = useNavigate();
+
+  const truncatePlot = (str, maxLength) => {
+    if (!str) return null;
+    if (str.length <= maxLength) return str;
+    return `${str.substring(0, maxLength)}...`;
+  };
 
   return (
     <div className="row">
@@ -14,14 +19,15 @@ const MovieList = (props) => {
               <img
                 onError={(e) => props.imgErrorProp(e)}
                 src={movie.posterUrl}
-                className="card-img-top align-self-center rounded-0"
+                className="card-img-top img-fluid align-self-center rounded-0"
                 alt="poster"
               />
               <div className="card-body">
-                <h5 className="card-title text-center fw-bold fs-4">
-                  {movie.title}
-                </h5>
-                <p className="card-text text-muted">{movie.plot}</p>
+                <h5 className="card-title text-center fs-6">{movie.title}</h5>
+                <p className="card-text text-muted">
+                  {truncatePlot(movie.plot, 150)}
+                </p>
+
                 <div className="d-flex justify-content-between align-items-center">
                   <button
                     type="button"
@@ -30,7 +36,13 @@ const MovieList = (props) => {
                   >
                     Delete
                   </button>
-
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/edit/${movie.id}`)}
+                    className="btn btn-sm btn-outline-primary"
+                  >
+                    Edit
+                  </button>
                   <span className="badge text-bg-light p-3 fs-5 font-monospace">
                     ({movie.year})
                   </span>

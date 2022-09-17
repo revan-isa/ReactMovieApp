@@ -3,6 +3,7 @@ import MovieList from "./MovieList";
 import SearchBar from "./SearchBar";
 import AddMovie from "./AddMovie";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import EditMovie from "./EditMovie";
 
 class App extends React.Component {
   state = {
@@ -15,8 +16,7 @@ class App extends React.Component {
     const baseUrl = "http://localhost:3001/movies";
     const response = await fetch(baseUrl);
     const data = await response.json();
-    const sortingMovies = data.sort((a, b) => b.id - a.id);
-    this.setState({ movies: sortingMovies });
+    this.setState({ movies: data });
   }
 
   // DELETE METHOD
@@ -59,14 +59,30 @@ class App extends React.Component {
     }));
   };
 
-  render() {
-    let filteredMovies = this.state.movies.filter((movie) => {
-      return (
-        movie.title
-          .toLowerCase()
-          .indexOf(this.state.searchQuery.toLowerCase()) !== -1
-      );
+  // Edit Movie
+  EditMovie = async (id, updatedMovie) => {
+    const response = await fetch(`http://localhost:3001/movies/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedMovie),
     });
+    const data = await response.json();
+    console.log(data);
+  };
+
+  render() {
+    let filteredMovies = this.state.movies
+      .filter((movie) => {
+        return (
+          movie.title
+            .toLowerCase()
+            .indexOf(this.state.searchQuery.toLowerCase()) !== -1
+        );
+      })
+      .sort((a, b) => {
+        return b.id - a.id;
+      });
+
     return (
       <Router>
         <Routes>
@@ -96,6 +112,16 @@ class App extends React.Component {
               <AddMovie
                 onAddMovie={(movie) => {
                   this.AddMovie(movie);
+                }}
+              />
+            }
+          ></Route>
+          <Route
+            path="edit/:id"
+            element={
+              <EditMovie
+                onEditMovie={(id, movie) => {
+                  this.EditMovie(id, movie);
                 }}
               />
             }
