@@ -1,7 +1,7 @@
 
 # React JS Movie App
 
- This project made by me while learning React JS. 
+ This project made by me while learning React JS. (it's not finished yet) 
 
 ## API Reference
 
